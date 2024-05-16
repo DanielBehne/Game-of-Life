@@ -31,9 +31,14 @@ public class View extends javax.swing.JFrame implements MessageHandler {
     public View(Messenger messages) {
         mvcMessaging = messages;   // Save the calling controller instance
         initComponents();           // Create and init the GUI components
-        g = panel1.getGraphics();
+        //g = panel1.getGraphics();
         //panel1.paintComponents(g);
-
+    }
+    
+    
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawLine(10, 10, 10, 10);
     }
 
     /**
@@ -118,7 +123,6 @@ public class View extends javax.swing.JFrame implements MessageHandler {
     private void initComponents() {
 
         panel1 = new java.awt.Panel();
-        startButton = new javax.swing.JButton();
         blackNum = new javax.swing.JLabel();
         gameLabel = new javax.swing.JLabel();
         whiteNum2 = new javax.swing.JLabel();
@@ -143,14 +147,6 @@ public class View extends javax.swing.JFrame implements MessageHandler {
             .addGap(0, 819, Short.MAX_VALUE)
         );
 
-        startButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        startButton.setText("Start Game");
-        startButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startButtonActionPerformed(evt);
-            }
-        });
-
         gameLabel.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
         gameLabel.setText(" ");
 
@@ -168,9 +164,7 @@ public class View extends javax.swing.JFrame implements MessageHandler {
                 .addComponent(whiteNum2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(gameLabel)
-                .addGap(49, 49, 49)
-                .addComponent(startButton)
-                .addGap(38, 38, 38))
+                .addGap(232, 232, 232))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,39 +177,13 @@ public class View extends javax.swing.JFrame implements MessageHandler {
                             .addComponent(whiteNum2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(startButton)
-                            .addComponent(gameLabel))))
+                        .addComponent(gameLabel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        // TODO add your handling code here:
-        gameLabel.setText("Black Move");
-
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(3));
-        g2.setColor(Color.black);
-
-        //draw grid lines
-        for (int i = 0; i < 7; i++) {
-            g.drawLine(i, (100 * i + 100), 800, (100 * i + 100));
-        }
-        for (int i = 0; i < 7; i++) {
-            g.drawLine((100 * i + 100), i, (100 * i + 100), 800);
-        }
-        //place starting 4 pieces
-        g.fillOval((4 * 100) + 15, (3 * 100) + 15, 70, 70);
-        g.fillOval((3 * 100) + 15, (4 * 100) + 15, 70, 70);
-        g2.setColor(Color.white);
-        g.fillOval((4 * 100) + 15, (4 * 100) + 15, 70, 70);
-        g.fillOval((3 * 100) + 15, (3 * 100) + 15, 70, 70);
-
-    }//GEN-LAST:event_startButtonActionPerformed
 
     private void onClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClick
         // TODO add your handling code here:
@@ -236,7 +204,6 @@ public class View extends javax.swing.JFrame implements MessageHandler {
     private javax.swing.JLabel blackNum;
     private javax.swing.JLabel gameLabel;
     private java.awt.Panel panel1;
-    private javax.swing.JButton startButton;
     private javax.swing.JLabel whiteNum2;
     // End of variables declaration//GEN-END:variables
 

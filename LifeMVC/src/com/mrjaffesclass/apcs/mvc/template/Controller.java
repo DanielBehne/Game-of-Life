@@ -1,5 +1,7 @@
 package com.mrjaffesclass.apcs.mvc.template;
 import com.mrjaffesclass.apcs.messenger.*;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  * 
@@ -37,9 +39,14 @@ public class Controller implements MessageHandler {
     mvcMessaging = new Messenger();
 
     // Create the view and set it visible
+    
+    //Graphics g = new Graphics();
+    
     View view = new View(mvcMessaging);    // This creates our view
     view.init();
     view.setVisible(true);
+    //view.paintComponent(g);
+
 
     // Create the model
     Model model = new Model(mvcMessaging);  // This creates our model

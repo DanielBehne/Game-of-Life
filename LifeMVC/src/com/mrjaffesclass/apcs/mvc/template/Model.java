@@ -13,7 +13,6 @@ public class Model implements MessageHandler {
     private final Messenger mvcMessaging;
 
     private boolean[][] board;
-    private boolean isBlackMove = true;
 
     public Model(Messenger messages) {
         mvcMessaging = messages;
