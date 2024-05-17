@@ -18,27 +18,26 @@ public class View extends javax.swing.JFrame implements MessageHandler {
 
     private final Messenger mvcMessaging;
 
-    public static final int BOARD_SIZE = 8;
-    private static final int CELL_SIZE = 100;
+    //public static final int BOARD_SIZE = 8;
+    //private static final int CELL_SIZE = 100;
 
-    Graphics g;
+    //Graphics g;
 
-    /**
-     * Creates a new view
-     *
-     * @param messages mvcMessaging object
-     */
+    private BoardPanel boardPanel1;
+
     public View(Messenger messages) {
         mvcMessaging = messages;   // Save the calling controller instance
         initComponents();           // Create and init the GUI components
+        initBoard();
         //g = panel1.getGraphics();
         //panel1.paintComponents(g);
     }
-    
-    
-    protected void paintComponent(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        g2d.drawLine(10, 10, 10, 10);
+
+    private void initBoard() {
+        String[][] initialBoard = new String[8][8];
+        boardPanel1 = new BoardPanel(initialBoard);
+        getContentPane().add(boardPanel1);
+        pack();
     }
 
     /**
@@ -65,51 +64,24 @@ public class View extends javax.swing.JFrame implements MessageHandler {
         } else {
             System.out.println("MSG: received by view: " + messageName + " | No data sent");
         }
-        if (messageName.equals("blackWin")) {
-            gameLabel.setText("BLACK WINS!!!");
-        }
-        if (messageName.equals("whiteWin")) {
-            gameLabel.setText("WHITE WINS!!!");
-        }
-        if (messageName.equals("gameTie")) {
-            gameLabel.setText("GAME TIED!");
-        } else if (messageName.equals("blackMove")) {
-            gameLabel.setText("Black Move");
-        } else if (messageName.equals("whiteMove")) {
-            gameLabel.setText("White Move");
-        }
 
-        if (messageName.equals("boardChanged")) {
-            String[][] board = (String[][]) messagePayload;
-            for (int w = 0; w < board.length; w++) {
-                for (int i = 0; i < board[0].length; i++) {
-                    if (board[w][i].equals("B")) {
-                        Graphics2D g2 = (Graphics2D) g;
-                        g2.setColor(Color.black);
-                        g.fillOval((w * 100) + 15, (i * 100) + 15, 70, 70);
-                    }
-                    if (board[w][i].equals("W")) {
-                        Graphics2D g2 = (Graphics2D) g;
-                        g2.setColor(Color.white);
-                        g.fillOval((w * 100) + 15, (i * 100) + 15, 70, 70);
-                    }
-                }
-            }
-        }
-
-        if (messageName.equals("noMoves")) {
-            this.mvcMessaging.notify("playerMove", this);
-        }
-
-        if (messageName.equals("blackPieces")) {
-            String b = messagePayload.toString();
-            blackNum.setText(b);
-        }
-
-        if (messageName.equals("whitePieces")) {
-            String w = messagePayload.toString();
-            whiteNum2.setText(w);
-        }
+//        if (messageName.equals("boardChanged")) {
+//            String[][] board = (String[][]) messagePayload;
+//            for (int w = 0; w < board.length; w++) {
+//                for (int i = 0; i < board[0].length; i++) {
+//                    if (board[w][i].equals("B")) {
+//                        Graphics2D g2 = (Graphics2D) g;
+//                        g2.setColor(Color.black);
+//                        g.fillRect((w * 100) + 15, (i * 100) + 15, 70, 70);
+//                    }
+//                    if (board[w][i].equals("W")) {
+//                        Graphics2D g2 = (Graphics2D) g;
+//                        g2.setColor(Color.white);
+//                        g.fillRect((w * 100) + 15, (i * 100) + 15, 70, 70);
+//                    }
+//                }
+//            }
+//        }
 
     }
 
@@ -123,9 +95,6 @@ public class View extends javax.swing.JFrame implements MessageHandler {
     private void initComponents() {
 
         panel1 = new java.awt.Panel();
-        blackNum = new javax.swing.JLabel();
-        gameLabel = new javax.swing.JLabel();
-        whiteNum2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -147,9 +116,6 @@ public class View extends javax.swing.JFrame implements MessageHandler {
             .addGap(0, 819, Short.MAX_VALUE)
         );
 
-        gameLabel.setFont(new java.awt.Font("Yu Gothic UI", 1, 24)); // NOI18N
-        gameLabel.setText(" ");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,28 +123,11 @@ public class View extends javax.swing.JFrame implements MessageHandler {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(blackNum)
-                .addGap(145, 145, 145)
-                .addComponent(whiteNum2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(gameLabel)
-                .addGap(232, 232, 232))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 23, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(blackNum)
-                            .addComponent(whiteNum2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(gameLabel)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap(48, Short.MAX_VALUE)
                 .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -187,13 +136,13 @@ public class View extends javax.swing.JFrame implements MessageHandler {
 
     private void onClick(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_onClick
         // TODO add your handling code here:
-        int x = evt.getX() / CELL_SIZE;
-        int y = evt.getY() / CELL_SIZE;
-        String placeX = String.valueOf(x);
-        String placeY = String.valueOf(y);
-        String place = placeX + placeY;
-        this.mvcMessaging.notify("playerMove", place);
-        this.mvcMessaging.notify("checkState");
+//        int x = evt.getX() / CELL_SIZE;
+//        int y = evt.getY() / CELL_SIZE;
+//        String placeX = String.valueOf(x);
+//        String placeY = String.valueOf(y);
+//        String place = placeX + placeY;
+//        this.mvcMessaging.notify("playerMove", place);
+//        this.mvcMessaging.notify("checkState");
     }//GEN-LAST:event_onClick
 
     /**
@@ -201,10 +150,7 @@ public class View extends javax.swing.JFrame implements MessageHandler {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel blackNum;
-    private javax.swing.JLabel gameLabel;
     private java.awt.Panel panel1;
-    private javax.swing.JLabel whiteNum2;
     // End of variables declaration//GEN-END:variables
 
 }
