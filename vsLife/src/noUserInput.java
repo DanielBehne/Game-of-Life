@@ -1,3 +1,4 @@
+
 // import java.awt.Color;
 //import java.awt.Font;
 import java.awt.Graphics;
@@ -11,17 +12,20 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.JLabel;
+import java.util.Random;
 
 public class noUserInput extends JPanel implements ActionListener {
     private Timer timer;
-    
-    //private final int CELL_SIZE = 25;
+
+    static JLabel test;
+
+    // private final int CELL_SIZE = 25;
 
     private int x = 0;
     private int y = 0;
 
     boolean[][] board = new boolean[32][32];
-
 
     private static boolean gameOn = false;
 
@@ -38,7 +42,7 @@ public class noUserInput extends JPanel implements ActionListener {
         board[12][10] = true;
         board[12][9] = true;
 
-        timer = new Timer(500,this);
+        timer = new Timer(100, this);
         timer.start();
 
     }
@@ -70,52 +74,89 @@ public class noUserInput extends JPanel implements ActionListener {
         }
     }
 
-
     /************* GAME LOGIC *************/
     // public void flow() {
-    //     boolean[][] retArr = new boolean[board.length][board[0].length];
-    //     for (int r = 0; r < board.length; r++) {
-    //         for (int c = 0; c < board[0].length; c++) {
-    //             retArr[r][c] = isLive(board, r, c);
-    //         }
-    //     }
-    //     board = retArr;
-    //     //repaint();
+    // boolean[][] retArr = new boolean[board.length][board[0].length];
+    // for (int r = 0; r < board.length; r++) {
+    // for (int c = 0; c < board[0].length; c++) {
+    // retArr[r][c] = isLive(board, r, c);
+    // }
+    // }
+    // board = retArr;
+    // //repaint();
     // }
 
     // public boolean isLive(boolean[][] arr, int row, int col) {
-    //     int count = 0;
-    //     for (int r = row - 1; row < row + 2; row++) {
-    //         for (int c = col - 1; col < col + 2; col++) {
-    //             if (arr[r][c]) {
-    //                 count++;
-    //             }
-    //         }
-    //     }
-
-    //     if (arr[row][col]) {
-    //         count--;
-    //         if (count < 2 || count > 3) {
-    //             return false;
-    //         }
-    //         if (count == 2 || count == 3) {
-    //             return true;
-    //         }
-    //     }
-    //     if (!arr[row][col]) {
-    //         if (count == 3) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
+    // int count = 0;
+    // for (int r = row - 1; row < row + 2; row++) {
+    // for (int c = col - 1; col < col + 2; col++) {
+    // if (arr[r][c]) {
+    // count++;
+    // }
+    // }
     // }
 
-    @Override 
+    // if (arr[row][col]) {
+    // count--;
+    // if (count < 2 || count > 3) {
+    // return false;
+    // }
+    // if (count == 2 || count == 3) {
+    // return true;
+    // }
+    // }
+    // if (!arr[row][col]) {
+    // if (count == 3) {
+    // return true;
+    // }
+    // }
+    // return false;
+    // }
+
+    @Override
     public void actionPerformed(ActionEvent e) {
-        board[5][5] = true;
+        boolean[][] retArr = new boolean[board.length][board[0].length];
+        for (int r = 1; r < board.length; r++) {
+            for (int c = 1; c < board[0].length; c++) {
+                int count = 0;
+                // for (int i = -1; i <= 1; i++) {
+                //     for (int w = -1; w <= 1; w++) {
+                //         if (board[r + i][c + w]) {
+                //             count++;
+                //         }
+                //     }
+                // }
+                // count--;
+                // if (board[r][c]) {
+                //     if (count < 2 || count > 3) {
+                //         retArr[r][c] = false;
+                //     } else if (count == 2 || count == 3) {
+                //         retArr[r][c] = true;
+                //     }
+                // } else if (!board[r][c]) {
+                //     if (count == 3) {
+                //         retArr[r][c] = true;
+                //     }
+                // } else {
+                //     retArr[r][c] = false;
+                // }
+                
+                Random rand = new Random();
+                retArr[r][c] = rand.nextBoolean();
+                
+
+                //print for testing
+                for (boolean b: retArr[r]) {
+                    System.out.println(b);
+                }
+            }
+        }
+
+        //retArr[7][7] = true;
+        board = retArr;
+
         repaint();
     }
-
 
     /************* MAIN METHOD *************/
     public static void main(String[] args) {
@@ -124,13 +165,14 @@ public class noUserInput extends JPanel implements ActionListener {
         frame.setSize(800, 800);
         noUserInput mainFrame = new noUserInput();
         frame.add(mainFrame);
+        //mainFrame.add(test);
         frame.setVisible(true);
         // mainFrame.flow();
         // mainFrame.repaint();
         // try {
-        //     Thread.sleep(150);
-        //     String[] a = new String[1];
-        //     main(a);
+        // Thread.sleep(150);
+        // String[] a = new String[1];
+        // main(a);
         // } catch (InterruptedException ex) {}
     }
 }
