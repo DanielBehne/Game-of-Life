@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ConwaysGameOfLife",
+            "request": "launch",
+            "mainClass": "ConwaysGameOfLife",
+            "projectName": "vsLife_25c24a16"
+        },
+        {
+            "type": "java",
             "name": "noUserInput",
             "request": "launch",
             "mainClass": "noUserInput",

@@ -9,8 +9,10 @@ import javax.swing.JPanel;
 // import javax.swing.JButton;
 // import java.awt.event.*;
 import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class noUserInput extends JPanel {
+public class noUserInput extends JPanel implements ActionListener {
     private Timer timer;
     
     //private final int CELL_SIZE = 25;
@@ -36,10 +38,7 @@ public class noUserInput extends JPanel {
         board[12][10] = true;
         board[12][9] = true;
 
-        timer = new Timer(500, e -> {
-            flow();
-            repaint();
-        });
+        timer = new Timer(500,this);
         timer.start();
 
     }
@@ -73,42 +72,48 @@ public class noUserInput extends JPanel {
 
 
     /************* GAME LOGIC *************/
-    public void flow() {
-        boolean[][] retArr = new boolean[board.length][board[0].length];
-        for (int r = 0; r < board.length; r++) {
-            for (int c = 0; c < board[0].length; c++) {
-                retArr[r][c] = isLive(board, r, c);
-            }
-        }
-        board = retArr;
-        //repaint();
-    }
+    // public void flow() {
+    //     boolean[][] retArr = new boolean[board.length][board[0].length];
+    //     for (int r = 0; r < board.length; r++) {
+    //         for (int c = 0; c < board[0].length; c++) {
+    //             retArr[r][c] = isLive(board, r, c);
+    //         }
+    //     }
+    //     board = retArr;
+    //     //repaint();
+    // }
 
-    public boolean isLive(boolean[][] arr, int row, int col) {
-        int count = 0;
-        for (int r = row - 1; row < row + 2; row++) {
-            for (int c = col - 1; col < col + 2; col++) {
-                if (arr[r][c]) {
-                    count++;
-                }
-            }
-        }
+    // public boolean isLive(boolean[][] arr, int row, int col) {
+    //     int count = 0;
+    //     for (int r = row - 1; row < row + 2; row++) {
+    //         for (int c = col - 1; col < col + 2; col++) {
+    //             if (arr[r][c]) {
+    //                 count++;
+    //             }
+    //         }
+    //     }
 
-        if (arr[row][col]) {
-            count--;
-            if (count < 2 || count > 3) {
-                return false;
-            }
-            if (count == 2 || count == 3) {
-                return true;
-            }
-        }
-        if (!arr[row][col]) {
-            if (count == 3) {
-                return true;
-            }
-        }
-        return false;
+    //     if (arr[row][col]) {
+    //         count--;
+    //         if (count < 2 || count > 3) {
+    //             return false;
+    //         }
+    //         if (count == 2 || count == 3) {
+    //             return true;
+    //         }
+    //     }
+    //     if (!arr[row][col]) {
+    //         if (count == 3) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
+
+    @Override 
+    public void actionPerformed(ActionEvent e) {
+        board[5][5] = true;
+        repaint();
     }
 
 
