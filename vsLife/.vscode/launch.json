@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "noUserInput",
+            "request": "launch",
+            "mainClass": "noUserInput",
+            "projectName": "vsLife_25c24a16"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
