@@ -42,7 +42,7 @@ public class noUserInput extends JPanel implements ActionListener {
         board[12][10] = true;
         board[12][9] = true;
 
-        timer = new Timer(100, this);
+        timer = new Timer(500, this);
         timer.start();
 
     }
@@ -141,9 +141,12 @@ public class noUserInput extends JPanel implements ActionListener {
                 //     retArr[r][c] = false;
                 // }
                 
+                /*random test*/
                 Random rand = new Random();
                 retArr[r][c] = rand.nextBoolean();
-                
+
+                /*invert*/
+                //retArr[r][c] = !retArr[r][c];
 
                 //print for testing
                 for (boolean b: retArr[r]) {
