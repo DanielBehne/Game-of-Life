@@ -99,8 +99,8 @@ public class MainFrame extends JPanel implements ActionListener {
                         }
                     }
                 }
-                count--;
                 if (board[r][c]) {
+                    count--;
                     if (count < 2 || count > 3) {
                         retArr[r][c] = false;
                     } else if (count == 2 || count == 3) {
@@ -110,9 +110,7 @@ public class MainFrame extends JPanel implements ActionListener {
                     if (count == 3) {
                         retArr[r][c] = true;
                     }
-                } else {
-                    retArr[r][c] = false;
-                }
+                } 
 
                 /* random test */
                 // Random rand = new Random();

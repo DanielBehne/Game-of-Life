@@ -126,8 +126,8 @@ public class noUserInput extends JPanel implements ActionListener {
                         }
                     }
                 }
-                count--;
                 if (board[r][c]) {
+                    count--;
                     if (count < 2 || count > 3) {
                         retArr[r][c] = false;
                     } else if (count == 2 || count == 3) {
