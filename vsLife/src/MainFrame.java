@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import java.awt.event.*;
 import javax.swing.Timer;
 //import javax.swing.JLabel;
-import java.util.Random;
+//import java.util.Random;
 
 public class MainFrame extends JPanel implements ActionListener {
     private final int CELL_SIZE = 25;
@@ -59,7 +59,7 @@ public class MainFrame extends JPanel implements ActionListener {
             }
         });
 
-        timer = new Timer(100, this);
+        timer = new Timer(10, this);
     }
 
     /************* BUTTONS *************/
@@ -87,14 +87,36 @@ public class MainFrame extends JPanel implements ActionListener {
     public void actionHelper() {
 
         boolean[][] retArr = new boolean[board.length][board[0].length];
-        for (int r = 1; r < board.length; r++) {
-            for (int c = 1; c < board[0].length; c++) {
+        for (int r = 1; r < board.length-1; r++) {
+            for (int c = 1; c < board[0].length-1; c++) {
 
                 /* actual game logic here eventually */
+                int count = 0;
+                for (int i = -1; i <= 1; i++) {
+                    for (int w = -1; w <= 1; w++) {
+                        if (board[r + i][c + w]) {
+                            count++;
+                        }
+                    }
+                }
+                count--;
+                if (board[r][c]) {
+                    if (count < 2 || count > 3) {
+                        retArr[r][c] = false;
+                    } else if (count == 2 || count == 3) {
+                        retArr[r][c] = true;
+                    }
+                } else if (!board[r][c]) {
+                    if (count == 3) {
+                        retArr[r][c] = true;
+                    }
+                } else {
+                    retArr[r][c] = false;
+                }
 
                 /* random test */
-                Random rand = new Random();
-                retArr[r][c] = rand.nextBoolean();
+                // Random rand = new Random();
+                // retArr[r][c] = rand.nextBoolean();
 
                 /* invert */
                 // retArr[r][c] = !retArr[r][c];

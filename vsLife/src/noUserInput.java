@@ -116,51 +116,51 @@ public class noUserInput extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         boolean[][] retArr = new boolean[board.length][board[0].length];
-        for (int r = 1; r < board.length; r++) {
-            for (int c = 1; c < board[0].length; c++) {
+        for (int r = 1; r < board.length-1; r++) {
+            for (int c = 1; c < board[0].length-1; c++) {
                 int count = 0;
-                // for (int i = -1; i <= 1; i++) {
-                //     for (int w = -1; w <= 1; w++) {
-                //         if (board[r + i][c + w]) {
-                //             count++;
-                //         }
-                //     }
-                // }
-                // count--;
-                // if (board[r][c]) {
-                //     if (count < 2 || count > 3) {
-                //         retArr[r][c] = false;
-                //     } else if (count == 2 || count == 3) {
-                //         retArr[r][c] = true;
-                //     }
-                // } else if (!board[r][c]) {
-                //     if (count == 3) {
-                //         retArr[r][c] = true;
-                //     }
-                // } else {
-                //     retArr[r][c] = false;
-                // }
-                
-                /*random test*/
+                for (int i = -1; i <= 1; i++) {
+                    for (int w = -1; w <= 1; w++) {
+                        if (board[r + i][c + w]) {
+                            count++;
+                        }
+                    }
+                }
+                count--;
+                if (board[r][c]) {
+                    if (count < 2 || count > 3) {
+                        retArr[r][c] = false;
+                    } else if (count == 2 || count == 3) {
+                        retArr[r][c] = true;
+                    }
+                } else if (!board[r][c]) {
+                    if (count == 3) {
+                        retArr[r][c] = true;
+                    }
+                } else {
+                    retArr[r][c] = false;
+                }
+
+                /* random test */
                 // Random rand = new Random();
                 // retArr[r][c] = rand.nextBoolean();
 
-                /*invert*/
-                //retArr[r][c] = !retArr[r][c];
+                /* invert */
+                // retArr[r][c] = !retArr[r][c];
 
-                /*checkers*/
-                if (r % 2 == 0 && c % 2 == 0) {
-                    retArr[r][c] = true;
-                }
+                /* checkers */
+                // if (r % 2 == 0 && c % 2 == 0) {
+                // retArr[r][c] = true;
+                // }
 
-                //print for testing
-                for (boolean b: retArr[r]) {
+                // print for testing
+                for (boolean b : retArr[r]) {
                     System.out.println(b);
                 }
             }
         }
 
-        //retArr[7][7] = true;
+        // retArr[7][7] = true;
         board = retArr;
 
         repaint();
@@ -173,7 +173,7 @@ public class noUserInput extends JPanel implements ActionListener {
         frame.setSize(800, 800);
         noUserInput mainFrame = new noUserInput();
         frame.add(mainFrame);
-        //mainFrame.add(test);
+        // mainFrame.add(test);
         frame.setVisible(true);
         // mainFrame.flow();
         // mainFrame.repaint();
