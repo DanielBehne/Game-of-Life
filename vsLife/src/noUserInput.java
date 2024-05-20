@@ -142,11 +142,16 @@ public class noUserInput extends JPanel implements ActionListener {
                 // }
                 
                 /*random test*/
-                Random rand = new Random();
-                retArr[r][c] = rand.nextBoolean();
+                // Random rand = new Random();
+                // retArr[r][c] = rand.nextBoolean();
 
                 /*invert*/
                 //retArr[r][c] = !retArr[r][c];
+
+                /*checkers*/
+                if (r % 2 == 0 && c % 2 == 0) {
+                    retArr[r][c] = true;
+                }
 
                 //print for testing
                 for (boolean b: retArr[r]) {

@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 //import java.awt.Font;
 import java.awt.Graphics;
@@ -8,6 +9,9 @@ import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.*;
+import javax.swing.Timer;
+//import javax.swing.JLabel;
+import java.util.Random;
 
 public class MainFrame extends JPanel implements ActionListener {
     private final int CELL_SIZE = 25;
@@ -21,6 +25,8 @@ public class MainFrame extends JPanel implements ActionListener {
 
     private static boolean gameOn = false;
 
+    private Timer timer;
+
     public MainFrame() {
         startButton = new JButton("Start");
         startButton.setBounds(675, 25, 100, 50);
@@ -28,7 +34,7 @@ public class MainFrame extends JPanel implements ActionListener {
         startButton.addActionListener(this);
         startButton.setBackground(Color.lightGray);
         startButton.setBorder(BorderFactory.createRaisedBevelBorder());
-        //add(startButton);
+        // add(startButton);
 
         for (int r = 0; r < 32; r++) {
             for (int c = 0; c < 32; c++) {
@@ -53,6 +59,60 @@ public class MainFrame extends JPanel implements ActionListener {
             }
         });
 
+        timer = new Timer(100, this);
+    }
+
+    /************* BUTTONS *************/
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == startButton) {
+            if (!gameOn) {
+                startButton.setText("Stop");
+                gameOn = true;
+                timer.start();
+            } else {
+                startButton.setText("Start");
+                gameOn = false;
+                timer.stop();
+            }
+
+        } else if (e.getSource() == timer) {
+            if (gameOn) {
+                actionHelper();
+                repaint();
+            }
+        }
+    }
+
+    public void actionHelper() {
+
+        boolean[][] retArr = new boolean[board.length][board[0].length];
+        for (int r = 1; r < board.length; r++) {
+            for (int c = 1; c < board[0].length; c++) {
+
+                /* actual game logic here eventually */
+
+                /* random test */
+                Random rand = new Random();
+                retArr[r][c] = rand.nextBoolean();
+
+                /* invert */
+                // retArr[r][c] = !retArr[r][c];
+
+                /* checkers */
+                // if (r % 2 == 0 && c % 2 == 0) {
+                // retArr[r][c] = true;
+                // }
+
+                // print for testing
+                for (boolean b : retArr[r]) {
+                    System.out.println(b);
+                }
+            }
+        }
+        // retArr[7][7] = true;
+        board = retArr;
+        // repaint();
     }
 
     /************* PAINTING METHODS *************/
@@ -83,28 +143,6 @@ public class MainFrame extends JPanel implements ActionListener {
         }
     }
 
-    /************* BUTTONS *************/
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == startButton) {
-            startButton.setText("Stop");
-            gameOn = true;
-            flow(board);
-            while (gameOn) {
-                boolean[][] newBoard = flow(board);
-                board = newBoard;
-                repaint();
-                // try {
-                // Thread.sleep(250);
-                // repaint();
-                // }
-                // catch(InterruptedException er) {
-                // er.printStackTrace();
-                // }
-            }
-        }
-    }
-
     /************* MAIN METHOD *************/
     public static void main(String[] args) {
         JFrame frame = new JFrame("Game Of Life");
@@ -114,45 +152,7 @@ public class MainFrame extends JPanel implements ActionListener {
         frame.add(mainFrame);
         mainFrame.add(startButton);
         frame.setVisible(true);
+
     }
 
-    /************* GAME LOGIC *************/
-    public boolean[][] flow(boolean[][] arr) {
-        boolean[][] retArr = new boolean[arr.length][arr[0].length];
-        for (int r = 0; r < arr.length; r++) {
-            for (int c = 0; c < arr[0].length; c++) {
-                retArr[r][c] = isLive(arr, r, c);
-            }
-        }
-        return retArr;
-    }
-
-    public boolean isLive(boolean[][] arr, int row, int col) {
-        int count = 0;
-        for (int r = row - 1; row < row + 2; row++) {
-            for (int c = col - 1; col < col + 2; col++) {
-                if (r == row && c == col) {
-                    continue;
-                }
-                if (arr[r][c]) {
-                    count++;
-                }
-            }
-        }
-
-        if (arr[row][col]) {
-            if (count < 2 || count > 3) {
-                return false;
-            }
-            if (count == 2 || count == 3) {
-                return true;
-            }
-        }
-        if (!arr[row][col]) {
-            if (count == 3) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
