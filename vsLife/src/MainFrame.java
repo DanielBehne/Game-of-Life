@@ -1,17 +1,13 @@
 
 import java.awt.Color;
-//import java.awt.Font;
 import java.awt.Graphics;
-//import java.awt.Graphics2D;
-import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import java.awt.event.*;
 import javax.swing.Timer;
-//import javax.swing.JLabel;
-//import java.util.Random;
+
 
 public class MainFrame extends JPanel implements ActionListener {
     private final int CELL_SIZE = 25;
@@ -21,27 +17,34 @@ public class MainFrame extends JPanel implements ActionListener {
 
     private boolean[][] board = new boolean[32][32];
 
-    private static JButton startButton;
+    static JButton startButton;
+    static JButton resetButton;
 
     private static boolean gameOn = false;
 
     private Timer timer;
 
+
     public MainFrame() {
+        setSize(800, 800);
+        
+        resetButton = new JButton("Reset");
+        resetButton.addActionListener(this);
+        resetButton.setBackground(Color.lightGray);
+        resetButton.setBorder(BorderFactory.createRaisedBevelBorder());
+
         startButton = new JButton("Start");
-        startButton.setBounds(675, 25, 100, 50);
-        startButton.setPreferredSize(new Dimension(100, 75));
+        //startButton.setBounds(675, 25, 100, 50);
+        //startButton.setPreferredSize(new Dimension(100, 75));
         startButton.addActionListener(this);
         startButton.setBackground(Color.lightGray);
         startButton.setBorder(BorderFactory.createRaisedBevelBorder());
-        // add(startButton);
 
         for (int r = 0; r < 32; r++) {
             for (int c = 0; c < 32; c++) {
                 board[r][c] = false;
             }
         }
-
         // Add a MouseListener to capture mouse clicks
         addMouseListener(new MouseAdapter() {
             @Override
@@ -59,12 +62,41 @@ public class MainFrame extends JPanel implements ActionListener {
             }
         });
 
-        timer = new Timer(10, this);
+        timer = new Timer(100, this);
+
+    }
+
+    public void resetBoard() {
+        for (int r = 0; r < 32; r++) {
+            for (int c = 0; c < 32; c++) {
+                board[r][c] = false;
+            }
+        }
+    }
+
+    public boolean isDead() {
+        int count = 0;
+        for (int r = 0; r < 32; r++) {
+            for (int c = 0; c < 32; c++) {
+                if (board[r][c]) {
+                    count++;
+                }
+            }
+        }
+        if (count == 0) {
+            return true;
+        }
+        return false;
     }
 
     /************* BUTTONS *************/
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (isDead()) {
+            startButton.setText("Start");
+            gameOn = false;
+            timer.stop();
+        }
         if (e.getSource() == startButton) {
             if (!gameOn) {
                 startButton.setText("Stop");
@@ -76,6 +108,9 @@ public class MainFrame extends JPanel implements ActionListener {
                 timer.stop();
             }
 
+        } else if (e.getSource() == resetButton) {
+            resetBoard();
+            repaint();
         } else if (e.getSource() == timer) {
             if (gameOn) {
                 actionHelper();
@@ -85,12 +120,9 @@ public class MainFrame extends JPanel implements ActionListener {
     }
 
     public void actionHelper() {
-
         boolean[][] retArr = new boolean[board.length][board[0].length];
         for (int r = 1; r < board.length-1; r++) {
             for (int c = 1; c < board[0].length-1; c++) {
-
-                /* actual game logic here eventually */
                 int count = 0;
                 for (int i = -1; i <= 1; i++) {
                     for (int w = -1; w <= 1; w++) {
@@ -112,27 +144,13 @@ public class MainFrame extends JPanel implements ActionListener {
                     }
                 } 
 
-                /* random test */
-                // Random rand = new Random();
-                // retArr[r][c] = rand.nextBoolean();
-
-                /* invert */
-                // retArr[r][c] = !retArr[r][c];
-
-                /* checkers */
-                // if (r % 2 == 0 && c % 2 == 0) {
-                // retArr[r][c] = true;
-                // }
-
                 // print for testing
                 for (boolean b : retArr[r]) {
                     System.out.println(b);
                 }
             }
         }
-        // retArr[7][7] = true;
         board = retArr;
-        // repaint();
     }
 
     /************* PAINTING METHODS *************/
@@ -168,11 +186,11 @@ public class MainFrame extends JPanel implements ActionListener {
         JFrame frame = new JFrame("Game Of Life");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
-        MainFrame mainFrame = new MainFrame();
-        frame.add(mainFrame);
-        mainFrame.add(startButton);
+        MainFrame h = new MainFrame();
+        frame.add(h);
+        h.add(startButton);
+        h.add(resetButton);
         frame.setVisible(true);
-
     }
 
 }
